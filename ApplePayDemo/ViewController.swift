@@ -50,6 +50,8 @@ class ViewController: UIViewController {
         request.merchantCapabilities = .capability3DS
         request.paymentSummaryItems = paymentSummeryItems()
         request.shippingMethods = shippingMethods()
+        request.requiredShippingAddressFields = [.email, .phone]
+        
         return request
     }
     
@@ -86,7 +88,7 @@ class ViewController: UIViewController {
 extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
-        completion(.failure)
+        completion(.success)
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
