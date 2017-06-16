@@ -13,7 +13,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.setApplePayButton()
     }
 
@@ -23,7 +22,7 @@ class ViewController: UIViewController {
     }
 
     
-    //Set Payment Button
+    //Setup Payment Button
     func setApplePayButton() {
         let payBtn = PKPaymentButton(type: .buy, style: .black)
         payBtn.center = self.view.center
@@ -31,6 +30,7 @@ class ViewController: UIViewController {
         self.view.addSubview(payBtn)
     }
 
+    //Apple Pay Button's action
     func applePay_btnClicked() {
         let paymentNetwroks: [PKPaymentNetwork] = [.visa, .amex, .masterCard]
         if PKPaymentAuthorizationController.canMakePayments(usingNetworks: paymentNetwroks) {
@@ -42,6 +42,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //This func create and return a PaymentRequest object with payment items and shipping address
     func createPaymentRequest()-> PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.applepay.vikash"
@@ -55,6 +56,7 @@ class ViewController: UIViewController {
         return request
     }
     
+    //This func return payment items array.
     func paymentSummeryItems(shipAmount: Double = 0.0)->[PKPaymentSummaryItem] {
         let subtotal = PKPaymentSummaryItem(label: "Sub Total", amount: NSDecimalNumber(value: 20.0))
         let servTax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(value: -5))
@@ -67,6 +69,7 @@ class ViewController: UIViewController {
         return [subtotal, servTax, shippingAmount, total]
     }
     
+    //Shipping methods for Payment request
     func shippingMethods()-> [PKShippingMethod] {
         let twoDaysDelivery = PKShippingMethod(label: "Super Fast Shipping.", amount: NSDecimalNumber(value: 15))
         twoDaysDelivery.identifier = "s_fast_shipping"
@@ -85,6 +88,7 @@ class ViewController: UIViewController {
     
 }
 
+//MARK:- PKPaymentAuthorizationViewControllerDelegate
 extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
